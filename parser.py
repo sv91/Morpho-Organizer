@@ -17,13 +17,12 @@ def parseMorphologies(morphologies, type, factor):
     dmg            = ''
     minPoint       = [100000,100000,100000]
     maxPoint       = [-100000,-100000,-100000]
-    txt            = 'Neurons: ' + str(len(morphologies)) + '\n'
+    txt            = str(len(morphologies)) + '\n'
     for i in range(len(morphologies)):
         actual_counter_points = counter_points
         actual_counter_lines  = counter_lines
         limitPoint            = maxPoint[0] - minPoint[0] #Suppose that every neuron have aproximatelly the same size TODO Correct this
         content               = []
-        txt                  += '\nNeuron ' + str(i)+ ': '
         txt_points            = ''
         txt_lines             = ''
 
@@ -56,10 +55,7 @@ def parseMorphologies(morphologies, type, factor):
                 # Printing
                 geo += 'Point(' + str(p) + ') = {' + str(x) + ',' + str(y) + ',' + str(z) + ',' + str(s) + '};\n'
                 dmg += 'Point[' + str(p) + '] = gmod::new_point3(gmod::Vector{' + str(x) + ',' + str(y) + ',' + str(z) + '},' + str(s) + ');\n'
-                if(txt_points == ''):
-                    txt_points += str(p)
-                else:
-                    txt_points += ', '+ str(p)
+                txt_points += ' '+ str(p)
 
                 counter_points += 1
 
@@ -72,14 +68,11 @@ def parseMorphologies(morphologies, type, factor):
                 # Printing
                 geo += 'Line(' + str(l) + ') = {' + str(p1) + ',' + str(p2) + '} ;\n'
                 dmg += 'gmod::add_to_group(g, gmod::new_line2(Point[' + str(p1) + '], Point[' + str(p2) + ']));\n'
-                if(txt_lines == ''):
-                    txt_lines += str(l)
-                else:
-                    txt_lines += ', '+ str(l)
+                txt_lines += ' '+ str(l)
 
                 counter_lines += 1
-        txt += str(counter_points - actual_counter_points) + ' Points and ' + str(counter_lines - actual_counter_lines) + ' Lines\n'
-        txt += 'Points: [' + txt_points + ']\nLines: [' + txt_lines + ']\n'
+        txt += str(counter_points - actual_counter_points) + txt_points + '\n'
+        txt += str(counter_lines - actual_counter_lines) + txt_lines + '\n'
     # Main part pour Gmodel to generate .dmg
     dmg =   "#include <gmodel.hpp>\n"+"#include <minidiff.hpp>\n"+"\n"+"int main()\n"+"   std::vector<gmod::PointPtr> Point;\n"+"   auto g = gmod::new_group();\n"+"   Point.resize(" + str(counter_points) + ");\n"+"\n"+ dmg
 
