@@ -55,7 +55,7 @@ def parseMorphologies(morphologies, type, factor):
                 # Printing
                 geo += 'Point(' + str(p) + ') = {' + str(x) + ',' + str(y) + ',' + str(z) + ',' + str(s) + '};\n'
                 dmg += 'Point[' + str(p) + '] = gmod::new_point3(gmod::Vector{' + str(x) + ',' + str(y) + ',' + str(z) + '},' + str(s) + ');\n'
-                txt_points += ' '+ str(p)
+                txt_points += '\n'+ str(p)
 
                 counter_points += 1
 
